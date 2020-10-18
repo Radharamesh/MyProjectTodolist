@@ -33,6 +33,38 @@ public class MainMenu {
         switch (option) {
             case 1:
                 //showtask
+                FileHandler readFileHandler = new FileHandler();
+                List<Task> showTaskList = readFileHandler.readAsObject();
+
+                System.out.println("Task list by project");
+                List<Task> sortListByProj = showTaskList.stream()
+                        .sorted(Comparator.comparing(Task::getProject))
+                        .collect(Collectors.toList());
+
+                for(Task task : sortListByProj) {
+                    if(task != null) {
+                        String taskStatus = task.getStatus() ? "Done" : "Tobedone";
+                        System.out.println("Task Title : " + task.getTaskTitle() + " " +
+                                "Task Duedate : " + task.getDueDate() + " " +
+                                "Task status : " + taskStatus + " " +
+                                "Project : " + task.getProject());
+                    }
+                }
+
+                System.out.println("Task list by date");
+                List<Task> sortListByDate = showTaskList.stream()
+                        .sorted(Comparator.comparing(Task::getDueDate))
+                        .collect(Collectors.toList());
+
+                for(Task task : sortListByDate) {
+                    if(task != null) {
+                        String taskStatus = task.getStatus() ? "Done" : "Tobedone";
+                        System.out.println("Task Title : " + task.getTaskTitle() + " " +
+                                "Task Duedate : " + task.getDueDate() + " " +
+                                "Task status : " + taskStatus + " " +
+                                "Project : " + task.getProject());
+                    }
+                }
                 break;
             case 2:
                 //addtask
