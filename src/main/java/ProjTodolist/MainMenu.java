@@ -85,6 +85,64 @@ public class MainMenu {
                 break;
             case 3:
                 //editTask();
+                int editOption;
+                String taskTitleToEdit;
+                String taskTitleToUpdate;
+                String taskTitleToRemove;
+                boolean taskStatusToUpdate = false;
+                int taskFieldToEdit;
+                editOption = parser.updateOrRemoveTask();
+
+                switch (editOption) {
+                    case 1:
+                        //Update
+                        FileHandler editFileHandler = new FileHandler();
+                        ArrayList<Task> editTaskList = editFileHandler.readAsObject();
+                        taskTitleToEdit = parser.getTaskTitleToEdit();
+                        //print task detail for this task title
+                        taskFieldToEdit = parser.taskFieldToEdit();
+                        if(taskFieldToEdit == 1) {
+                            taskTitleToUpdate = parser.getTaskTitleToUpdate();
+                            for(Task task : editTaskList) {
+                                if(task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
+                                    task.setTaskTitle(taskTitleToUpdate);
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            taskStatusToUpdate = parser.getTaskStatusToUpdate();
+                            for(Task task : editTaskList) {
+                                if(task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
+                                    task.setStatus(taskStatusToUpdate);
+                                    break;
+                                }
+                            }
+                        }
+                        if (editTaskList.size() != 0) {
+                            editFileHandler.updateAsObject(editTaskList);
+                            System.out.println("Task%s updated" + taskTitleToEdit);
+                        }
+                        break;
+                    case 2:
+                        //Remove
+                        FileHandler removeFileHandler = new FileHandler();
+                        ArrayList<Task> removeTaskList = removeFileHandler.readAsObject();
+                        taskTitleToRemove = parser.getTaskTitleToRemove();
+                        for(Task task : removeTaskList) {
+                            if(task != null && taskTitleToRemove.equals(task.getTaskTitle())) {
+                                removeTaskList.remove(task);
+                                break;
+                            }
+                        }
+                        if (removeTaskList.size() != 0) {
+                            removeFileHandler.updateAsObject(removeTaskList);
+                            System.out.println("Task%s removed" + taskTitleToRemove);
+                        }
+                        break;
+                    default:
+                        System.out.println("Invalid option");
+                }
 
                 break;
             case 4:
