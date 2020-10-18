@@ -61,4 +61,22 @@ public class FileHandler {
         return list;
     }
 
+    public void updateAsObject(ArrayList<Task> list) {
+        try {
+            FileOutputStream file = new FileOutputStream(filename);
+            ObjectOutputStream output = new ObjectOutputStream(file);
+
+            // writes objects to output stream
+
+            output.writeObject(list);
+
+            output.close();
+            file.close();
+        } catch (IOException e) {
+            System.out.println("File doesn't found " + e);
+        }
+
+    }
+
+
 }
