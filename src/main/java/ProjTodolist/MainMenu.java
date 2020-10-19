@@ -6,22 +6,32 @@ import java.io.Serializable;
 import java.util.stream.Collectors;
 
 public class MainMenu {
-    private static ArrayList<Task> TaskList = new ArrayList<>();
+    private static ArrayList<Task> taskList = new ArrayList<>();
+    private static List<Task> readTaskList;
     private static boolean quit = false;
+    private static boolean addTasks = true;
 
     public static void main(String[] args) throws Exception {
         int option;
-        int tasksToBeDoneSize;
-        int tasksDoneSize;
+        int tasksToBeDoneSize = 0;
+        int tasksDoneSize = 0;
+
         Parser parser = new Parser();
+
+        FileHandler readFileHandler = new FileHandler();
+        if (readFileHandler.fileExists() == true) {
+            readTaskList = readFileHandler.readAsObject();
+            taskList = readFileHandler.readAsObject();
+        }
         while (quit == false) {
-            tasksDoneSize = getSizeOfTasksDone();
-            tasksToBeDoneSize = getSizeOfTasksToBeDone();
+            tasksDoneSize = getSizeOfTasksDone(taskList);
+            tasksToBeDoneSize = getSizeOfTasksToBeDone(taskList);
             parser.printWelcome(tasksToBeDoneSize, tasksDoneSize);
             option = parser.getOption();
             processOption(option, parser);
         }
     }
+
 
     public static void processOption(int option, Parser parser) throws Exception {
         String taskTitle;
@@ -29,42 +39,12 @@ public class MainMenu {
         boolean status;
         String project;
 
-        Boolean addTasks = true;
         switch (option) {
             case 1:
                 //showtask
-                FileHandler readFileHandler = new FileHandler();
-                List<Task> showTaskList = readFileHandler.readAsObject();
+                showTaskListByProj();
+                showTaskListByDate();
 
-                System.out.println("Task list by project");
-                List<Task> sortListByProj = showTaskList.stream()
-                        .sorted(Comparator.comparing(Task::getProject))
-                        .collect(Collectors.toList());
-
-                for(Task task : sortListByProj) {
-                    if(task != null) {
-                        String taskStatus = task.getStatus() ? "Done" : "Tobedone";
-                        System.out.println("Task Title : " + task.getTaskTitle() + " " +
-                                "Task Duedate : " + task.getDueDate() + " " +
-                                "Task status : " + taskStatus + " " +
-                                "Project : " + task.getProject());
-                    }
-                }
-
-                System.out.println("Task list by date");
-                List<Task> sortListByDate = showTaskList.stream()
-                        .sorted(Comparator.comparing(Task::getDueDate))
-                        .collect(Collectors.toList());
-
-                for(Task task : sortListByDate) {
-                    if(task != null) {
-                        String taskStatus = task.getStatus() ? "Done" : "Tobedone";
-                        System.out.println("Task Title : " + task.getTaskTitle() + " " +
-                                "Task Duedate : " + task.getDueDate() + " " +
-                                "Task status : " + taskStatus + " " +
-                                "Project : " + task.getProject());
-                    }
-                }
                 break;
             case 2:
                 //addtask
@@ -76,12 +56,10 @@ public class MainMenu {
                     project = parser.getTaskProject();
 
                     Task ts = new Task(taskTitle, dueDate, status, project);
-                    TaskList.add(ts);
+                    taskList.add(ts);
                     System.out.println("Task added");
                     addTasks = parser.addAnotherTask();
                 }
-
-
                 break;
             case 3:
                 //editTask();
@@ -96,60 +74,48 @@ public class MainMenu {
                 switch (editOption) {
                     case 1:
                         //Update
-                        FileHandler editFileHandler = new FileHandler();
-                        ArrayList<Task> editTaskList = editFileHandler.readAsObject();
                         taskTitleToEdit = parser.getTaskTitleToEdit();
                         //print task detail for this task title
                         taskFieldToEdit = parser.taskFieldToEdit();
-                        if(taskFieldToEdit == 1) {
+                        if (taskFieldToEdit == 1) {
                             taskTitleToUpdate = parser.getTaskTitleToUpdate();
-                            for(Task task : editTaskList) {
-                                if(task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
+                            for (Task task : taskList) {
+                                if (task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
                                     task.setTaskTitle(taskTitleToUpdate);
                                     break;
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             taskStatusToUpdate = parser.getTaskStatusToUpdate();
-                            for(Task task : editTaskList) {
-                                if(task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
+                            for (Task task : taskList) {
+                                if (task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
                                     task.setStatus(taskStatusToUpdate);
                                     break;
                                 }
                             }
                         }
-                        if (editTaskList.size() != 0) {
-                            editFileHandler.updateAsObject(editTaskList);
-                            System.out.printf("Task %s updated", taskTitleToEdit);
-                        }
+                        System.out.printf("Task %s updated", taskTitleToEdit);
                         break;
                     case 2:
                         //Remove
-                        FileHandler removeFileHandler = new FileHandler();
-                        ArrayList<Task> removeTaskList = removeFileHandler.readAsObject();
                         taskTitleToRemove = parser.getTaskTitleToRemove();
-                        for(Task task : removeTaskList) {
-                            if(task != null && taskTitleToRemove.equals(task.getTaskTitle())) {
-                                removeTaskList.remove(task);
+                        for (Task task : taskList) {
+                            if (task != null && taskTitleToRemove.equals(task.getTaskTitle())) {
+                                taskList.remove(task);
                                 break;
                             }
                         }
-                        if (removeTaskList.size() != 0) {
-                            removeFileHandler.updateAsObject(removeTaskList);
-                            System.out.println("Task%s removed" + taskTitleToRemove);
-                        }
+                        System.out.printf("Task %s removed", taskTitleToRemove);
                         break;
                     default:
                         System.out.println("Invalid option");
                 }
-
                 break;
             case 4:
-                if (TaskList.size() != 0) {
+                if (taskList.size() != 0) {
                     FileHandler writeFileHandler = new FileHandler();
                     //object stream
-                    writeFileHandler.writeAsObject(TaskList);
+                    writeFileHandler.writeAsObject(taskList);
                 }
 
                 //saveAndQuit();
@@ -162,14 +128,46 @@ public class MainMenu {
 
     }
 
-    private static int getSizeOfTasksToBeDone() {
+    private static void showTaskListByProj() {
+        System.out.println("Task list by project");
+        List<Task> sortListByProj = taskList.stream()
+                .sorted(Comparator.comparing(Task::getProject))
+                .collect(Collectors.toList());
+
+        for (Task task : sortListByProj) {
+            if (task != null) {
+                String taskStatus = task.getStatus() ? "Done" : "Tobedone";
+                System.out.println("Task Title : " + task.getTaskTitle() + " " +
+                        "Task Duedate : " + task.getDueDate() + " " +
+                        "Task status : " + taskStatus + " " +
+                        "Project : " + task.getProject());
+            }
+        }
+
+    }
+
+    private static void showTaskListByDate() {
+        System.out.println("Task list by date");
+        List<Task> sortListByDate = taskList.stream()
+                .sorted(Comparator.comparing(Task::getDueDate))
+                .collect(Collectors.toList());
+
+        for (Task task : sortListByDate) {
+            if (task != null) {
+                String taskStatus = task.getStatus() ? "Done" : "Tobedone";
+                System.out.println("Task Title : " + task.getTaskTitle() + " " +
+                        "Task Duedate : " + task.getDueDate() + " " +
+                        "Task status : " + taskStatus + " " +
+                        "Project : " + task.getProject());
+            }
+        }
+    }
+
+    private static int getSizeOfTasksToBeDone(List<Task> readTaskList) {
         int tasksToBeDoneSize = 0;
 
-        FileHandler readFileHandlerToBeDone = new FileHandler();
-        List<Task> readTaskListToBeDone = readFileHandlerToBeDone.readAsObject();
-
-        if (readTaskListToBeDone.size() != 0) {
-            List<Task> tasksToBeDone = readTaskListToBeDone.stream()
+        if (readTaskList.size() != 0) {
+            List<Task> tasksToBeDone = readTaskList.stream()
                     .filter(c -> c.getStatus() == false)
                     .collect(Collectors.toList());
             tasksToBeDoneSize = tasksToBeDone.size();
@@ -178,13 +176,11 @@ public class MainMenu {
         return tasksToBeDoneSize;
     }
 
-    private static int getSizeOfTasksDone() {
+    private static int getSizeOfTasksDone(List<Task> readTaskList) {
         int tasksDoneSize = 0;
-        FileHandler readFileHandlerDone = new FileHandler();
-        List<Task> readTaskListDone = readFileHandlerDone.readAsObject();
 
-        if (readTaskListDone.size() != 0) {
-            List<Task> tasksDone = readTaskListDone.stream()
+        if (readTaskList.size() != 0) {
+            List<Task> tasksDone = readTaskList.stream()
                     .filter(c -> c.getStatus() == true)
                     .collect(Collectors.toList());
             tasksDoneSize = tasksDone.size();

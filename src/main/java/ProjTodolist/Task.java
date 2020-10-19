@@ -14,7 +14,7 @@ public class Task implements Serializable {
     private boolean status;
     private String project;
 
-    public Task(String taskTitle, String dueDate, boolean status, String project)  {
+    public Task(String taskTitle, String dueDate, boolean status, String project) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         this.taskTitle = taskTitle;

@@ -74,7 +74,6 @@ public class Parser {
         } catch (InputMismatchException e) {
             System.out.println("Invalid input!");
         }
-
         return status;
     }
 
@@ -114,7 +113,6 @@ public class Parser {
         } catch (InputMismatchException e) {
             System.out.println("Invalid input!");
         }
-
         return status;
     }
 
