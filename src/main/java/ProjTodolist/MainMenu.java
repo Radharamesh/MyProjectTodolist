@@ -5,12 +5,21 @@ import java.util.*;
 import java.io.Serializable;
 import java.util.stream.Collectors;
 
+/**
+ *  This class is the main class of the "Todolist project".
+ *  "Todolist" is a very simple, text based application
+ *  It gets options from user using scanner to add, edit, remove and save tasks
+ *  This main class creates and initialises all the others.
+ *  */
 public class MainMenu {
     private static ArrayList<Task> taskList = new ArrayList<>();
     private static List<Task> readTaskList;
     private static boolean quit = false;
     private static boolean addTasks = true;
 
+    /**
+     *  Main method runs when application initiates run and loops until user choose to save and quit.
+     */
     public static void main(String[] args) throws Exception {
         int option;
         int tasksToBeDoneSize = 0;
@@ -18,11 +27,16 @@ public class MainMenu {
 
         Parser parser = new Parser();
 
+        //Check for file existance and reads from text file and store it in an arraylist.
         FileHandler readFileHandler = new FileHandler();
         if (readFileHandler.fileExists() == true) {
             readTaskList = readFileHandler.readAsObject();
             taskList = readFileHandler.readAsObject();
         }
+
+        /*If user runs application gets number of tasks done, tobedone and
+        prints it along with welcome message, then process the user input option.
+         */
         while (quit == false) {
             tasksDoneSize = getSizeOfTasksDone(taskList);
             tasksToBeDoneSize = getSizeOfTasksToBeDone(taskList);
@@ -32,7 +46,11 @@ public class MainMenu {
         }
     }
 
-
+    /**
+     * Given an option, process (that is: execute) the option.
+     * parameter option to be processed.
+     * Based on the option the process for adding,editing,removing and saving tasks will be carried out.
+     */
     public static void processOption(int option, Parser parser) throws Exception {
         String taskTitle;
         String dueDate;
@@ -41,13 +59,13 @@ public class MainMenu {
 
         switch (option) {
             case 1:
-                //showtask
+                //calling methods for showing tasks by date and project
                 showTaskListByProj();
                 showTaskListByDate();
 
                 break;
             case 2:
-                //addtask
+                //adding tasks and store it in an arraylist of task objects.
                 while (addTasks == true) {
 
                     taskTitle = parser.getTaskTitle();
@@ -62,7 +80,7 @@ public class MainMenu {
                 }
                 break;
             case 3:
-                //editTask();
+                //Editing tasks for updating task title and status or removing tasks
                 int editOption;
                 String taskTitleToEdit;
                 String taskTitleToUpdate;
@@ -112,6 +130,7 @@ public class MainMenu {
                 }
                 break;
             case 4:
+                //Calling methods in filehandler class to save tasks in text file and quits from application.
                 if (taskList.size() != 0) {
                     FileHandler writeFileHandler = new FileHandler();
                     //object stream
@@ -128,6 +147,9 @@ public class MainMenu {
 
     }
 
+    /**
+     * Sorts tasks list by project and prints tasks lists.
+     */
     private static void showTaskListByProj() {
         System.out.println("Task list by project");
         List<Task> sortListByProj = taskList.stream()
@@ -146,6 +168,9 @@ public class MainMenu {
 
     }
 
+    /**
+     * Sorts tasks list by date and prints tasks lists.
+     */
     private static void showTaskListByDate() {
         System.out.println("Task list by date");
         List<Task> sortListByDate = taskList.stream()
@@ -163,6 +188,9 @@ public class MainMenu {
         }
     }
 
+    /**
+     * @return The number of tasks to be done.
+     */
     private static int getSizeOfTasksToBeDone(List<Task> readTaskList) {
         int tasksToBeDoneSize = 0;
 
@@ -176,6 +204,9 @@ public class MainMenu {
         return tasksToBeDoneSize;
     }
 
+    /**
+     * @return The number of tasks marked as done.
+     */
     private static int getSizeOfTasksDone(List<Task> readTaskList) {
         int tasksDoneSize = 0;
 
