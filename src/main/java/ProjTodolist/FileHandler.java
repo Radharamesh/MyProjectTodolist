@@ -12,27 +12,18 @@ import java.util.List;
 
 
 public class FileHandler {
-    private String filename = "/Users/radhas/IdeaProjects/MyprojTodolist/src/Taskfile.txt";
+    private String filename = "/Users/radhas/Desktop/Project/task.txt";
 
     ArrayList<Task> taskList1 = new ArrayList<>();
 
     //Object Stream
     public void writeAsObject(ArrayList<Task> list) {
-        taskList1 = readAsObject();
-        if (taskList1.size() > 0) {
-            for (int i = 0; i < taskList1.size(); i++) {
-
-                Task t = taskList1.get(i);
-                list.add(t);
-            }
-        }
 
         try {
             FileOutputStream file = new FileOutputStream(filename);
             ObjectOutputStream output = new ObjectOutputStream(file);
 
             // writes objects to output stream
-
             output.writeObject(list);
 
             output.close();
@@ -67,7 +58,6 @@ public class FileHandler {
             ObjectOutputStream output = new ObjectOutputStream(file);
 
             // writes objects to output stream
-
             output.writeObject(list);
 
             output.close();
@@ -76,6 +66,18 @@ public class FileHandler {
             System.out.println("File doesn't found " + e);
         }
 
+    }
+
+    public boolean fileExists() {
+        boolean exist = false;
+        try {
+            File file = new File("/Users/radhas/Desktop/Project/task.txt");
+            exist = file.exists();
+
+        } catch (NullPointerException e) {
+            System.out.println("File doesn't found " + e);
+        }
+        return exist;
     }
 
 
