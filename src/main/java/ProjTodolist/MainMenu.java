@@ -121,7 +121,7 @@ public class MainMenu {
                         }
                         if (editTaskList.size() != 0) {
                             editFileHandler.updateAsObject(editTaskList);
-                            System.out.println("Task%s updated" + taskTitleToEdit);
+                            System.out.printf("Task %s updated", taskTitleToEdit);
                         }
                         break;
                     case 2:

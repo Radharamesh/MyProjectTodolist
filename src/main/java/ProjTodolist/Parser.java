@@ -53,7 +53,6 @@ public class Parser {
 
     public int taskFieldToEdit() {
         int editFieldOption;
-
         System.out.println("Which field do you want to update (Task Title : 1, Status : 2)");
         editFieldOption = inputReader.nextInt();
         return editFieldOption;
