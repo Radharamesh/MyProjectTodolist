@@ -69,17 +69,25 @@ public class Parser {
      */
     public int updateOrRemoveTask() {
         int editOption;
-        System.out.println("Do you want to update or remove task (Update : 1, Remove : 2)");
+        System.out.println("Do you want to update or remove task? (Update : 1, Remove : 2)");
         editOption = inputReader.nextInt();
         return editOption;
     }
-
+    /**
+     * @return The next option from user to show tasks by date or project.
+     */
+    public int optionShowTask() {
+        int showOption;
+        System.out.println("Display by project or date? (Project : 1, Duedate : 2)");
+        showOption = inputReader.nextInt();
+        return showOption;
+    }
     /**
      * @return The next option from user to choose fields to update.
      */
     public int taskFieldToEdit() {
         int editFieldOption;
-        System.out.println("Which field do you want to update (Task Title : 1, Status : 2)");
+        System.out.println("Which field you want to update? (Task Title : 1, Status : 2)");
         editFieldOption = inputReader.nextInt();
         return editFieldOption;
 
@@ -173,6 +181,8 @@ public class Parser {
         project = inputReader.next();
         return project;
     }
+
+
 
 
 }
