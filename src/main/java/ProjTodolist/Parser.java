@@ -122,7 +122,7 @@ public class Parser {
     /**
      * @return The task title from user in which user wants to update and remove tasks.
      */
-    public String getTaskTitleToEdit() {
+    public String getTaskToEdit() {
         String taskTitle;
         System.out.println(">> Enter which task you want to update : ");
         taskTitle = inputReader.next();
@@ -132,7 +132,7 @@ public class Parser {
     /**
      * @return The task title from user which user wants to remove from task list.
      */
-    public String getTaskTitleToRemove() {
+    public String getTaskToRemove() {
         String taskTitle;
         System.out.println(">> Enter which task you want to remove : ");
         taskTitle = inputReader.next();
@@ -175,7 +175,7 @@ public class Parser {
     /**
      * @return The input Projectname from user while adding new task.
      */
-    public String getTaskProject() {
+    public String getProjectName() {
         String project;
         System.out.println("Enter Project name of Task");
         project = inputReader.next();

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
  *  */
 public class MainMenu {
     private static ArrayList<Task> taskList = new ArrayList<>();
-    private static List<Task> readTaskList;
     private static boolean quit = false;
     private static boolean addTasks = true;
 
@@ -30,7 +29,6 @@ public class MainMenu {
         //Check for file existance and reads from text file and store it in an arraylist.
         FileHandler readFileHandler = new FileHandler();
         if (readFileHandler.fileExists() == true) {
-            readTaskList = readFileHandler.readAsObject();
             taskList = readFileHandler.readAsObject();
         }
 
@@ -51,11 +49,11 @@ public class MainMenu {
      * parameter option to be processed.
      * Based on the option the process for adding,editing,removing and saving tasks will be carried out.
      */
-    public static void processOption(int option, Parser parser) throws Exception {
+    private static void processOption(int option, Parser parser) throws Exception {
         switch (option) {
             case 1:
                 //Showing tasks by date and project
-                showTasks(parser);
+                showTask(parser);
                 break;
             case 2:
                 //Adding tasks and store it in an arraylist of task objects.
@@ -102,7 +100,7 @@ public class MainMenu {
             dueDate = parser.getTaskDuedate();
             //status = parser.getTaskStatus();
             status = false;
-            project = parser.getTaskProject();
+            project = parser.getProjectName();
 
             Task ts = new Task(taskTitle, dueDate, status, project);
             taskList.add(ts);
@@ -116,9 +114,9 @@ public class MainMenu {
      */
     private static void editAndRemoveTask(Parser parser) {
         int editOption;
-        String taskTitleToEdit;
+        String taskToEdit;
         String taskTitleToUpdate;
-        String taskTitleToRemove;
+        String taskToRemove;
         boolean taskStatusToUpdate = false;
         int taskFieldToEdit;
         editOption = parser.updateOrRemoveTask();
@@ -127,13 +125,13 @@ public class MainMenu {
             case 1:
                 //Update
                 showTaskListByProj();
-                taskTitleToEdit = parser.getTaskTitleToEdit();
-                //print task detail for this task title
+                taskToEdit = parser.getTaskToEdit();
+
                 taskFieldToEdit = parser.taskFieldToEdit();
                 if (taskFieldToEdit == 1) {
                     taskTitleToUpdate = parser.getTaskTitleToUpdate();
                     for (Task task : taskList) {
-                        if (task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
+                        if (task != null && taskToEdit.equals(task.getTaskTitle())) {
                             task.setTaskTitle(taskTitleToUpdate);
                             break;
                         }
@@ -141,25 +139,25 @@ public class MainMenu {
                 } else {
                     taskStatusToUpdate = parser.getTaskStatusToUpdate();
                     for (Task task : taskList) {
-                        if (task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
+                        if (task != null && taskToEdit.equals(task.getTaskTitle())) {
                             task.setStatus(taskStatusToUpdate);
                             break;
                         }
                     }
                 }
-                System.out.printf("Task %s updated", taskTitleToEdit);
+                System.out.printf("Task %s updated", taskToEdit);
                 break;
             case 2:
                 //Remove
                 showTaskListByProj();
-                taskTitleToRemove = parser.getTaskTitleToRemove();
+                taskToRemove = parser.getTaskToRemove();
                 for (Task task : taskList) {
-                    if (task != null && taskTitleToRemove.equals(task.getTaskTitle())) {
+                    if (task != null && taskToRemove.equals(task.getTaskTitle())) {
                         taskList.remove(task);
                         break;
                     }
                 }
-                System.out.printf("Task %s removed", taskTitleToRemove);
+                System.out.printf("Task %s removed", taskToRemove);
                 break;
             default:
                 System.out.println("Invalid option");
@@ -169,7 +167,7 @@ public class MainMenu {
     /**
      * Displaying tasks by date and project based on user option.
      */
-    private static void showTasks(Parser parser) {
+    private static void showTask(Parser parser) {
             int showOption;
             showOption = parser.optionShowTask();
             switch (showOption) {

@@ -17,9 +17,7 @@ import java.util.List;
  * while opening application it reads tasks from file and returns list of tasks in Arraylist.
  * */
 public class FileHandler {
-    private String filename = "/Users/radhas/Desktop/Project/task.txt";
-
-    ArrayList<Task> taskList1 = new ArrayList<>();
+    private String fileName = "/Users/radhas/Desktop/Project/task.txt";
 
     /**
      * Creates a new file in the given path and writes the tasks as objects from Arraylist of Task objects.
@@ -27,7 +25,7 @@ public class FileHandler {
     public void writeAsObject(ArrayList<Task> list) {
 
         try {
-            FileOutputStream file = new FileOutputStream(filename);
+            FileOutputStream file = new FileOutputStream(fileName);
             ObjectOutputStream output = new ObjectOutputStream(file);
 
             // writes objects to output stream
@@ -48,7 +46,7 @@ public class FileHandler {
     public ArrayList<Task> readAsObject() {
         ArrayList<Task> list = new ArrayList<>();
         try {
-            FileInputStream file = new FileInputStream(filename);
+            FileInputStream file = new FileInputStream(fileName);
             ObjectInputStream stream = new ObjectInputStream(file);
 
             list = (ArrayList<Task>) stream.readObject();
