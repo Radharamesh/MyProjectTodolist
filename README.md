@@ -35,16 +35,35 @@ Then it adds the task and ask the User to add another task.
  <img src = "https://github.com/Radharamesh/MyProjectTodolist/blob/main/Screenshots/IP%20screenshots/Screenshot%202020-10-22%20at%2018.52.06.png" width = "500">
   
   
-3. User can edit tasks by typing 3.
+3. User can edit or remove tasks by typing 3.
 <img src = "https://github.com/Radharamesh/MyProjectTodolist/blob/main/Screenshots/IP%20screenshots/Screenshot%202020-10-22%20at%2018.53.03.png" width = "1000">
 
 * It will ask the User to type 1 for edit or type 2 for remove. 
-   * If user type 1, it will display the list of tasks for the user to refer which task to edit. 
-   * Then it will ask the task name. 
-   * If user enters task name, then it will ask the user to type 1 for editing task name field or type 2 for editing status to mark as done.
-   * If user choose 1, then it will ask the user to enter new task name to update the existing task name.
-   * If user choose 2, then it will ask the user to enter true to mark it as done and false to mark it as not done.
+    * If user type 1, it will display the list of tasks for the user to refer which task to edit. 
+    * Then it will ask the task name. 
+    * If user enters task name, then it will ask the user to type 1 for editing task name field or type 2 for editing status to mark as done.
+    * If user choose 1, then it will ask the user to enter new task name to update the existing task name.
+    * If user enter new task name, it will update the task and display the message as "task updated", and displays welcome message again.
 
+<img src = "https://github.com/Radharamesh/MyProjectTodolist/blob/main/Screenshots/IP%20screenshots/Screenshot%202020-10-22%20at%2018.56.09.png" width = "1000">
 
  
- 
+* If user choose 2, then it will ask the user to enter true to mark status of task as done and false to mark status as to be done. If user enter status, then it will update the status and display the message as task updated, and displays welcome message again.
+
+<img src = "https://github.com/Radharamesh/MyProjectTodolist/blob/main/Screenshots/IP%20screenshots/Screenshot%202020-10-22%20at%2018.57.50.png" width = "1000">
+
+* If user type 2, to remove task, then it will display the list of tasks for the user to refer which task to remove.
+
+<img src = "https://github.com/Radharamesh/MyProjectTodolist/blob/main/Screenshots/IP%20screenshots/Screenshot%202020-10-22%20at%2018.59.04.png" width = "1000">
+
+* Then it will ask the task name.
+* If user enters task name, then it will remove the task with the task name entered and display the message as task removed, and displays welcome message again.
+
+<img src = "https://github.com/Radharamesh/MyProjectTodolist/blob/main/Screenshots/IP%20screenshots/Screenshot%202020-10-22%20at%2018.59.41.png" width = "1000">
+
+4. User can save the tasks in a file and quit the application by typing 4.
+
+<img src = "https://github.com/Radharamesh/MyProjectTodolist/blob/main/Screenshots/IP%20screenshots/Screenshot%202020-10-22%20at%2019.02.41.png" width = "1000">
+
+
+
