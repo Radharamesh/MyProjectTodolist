@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ProjTodolist.TaskTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2020-10-19T11:23:16" hostname="SDA-Lund-50-mbpro" time="0.034">
+  <properties/>
+  <testcase name="setProject()" classname="ProjTodolist.TaskTest" time="0.016"/>
+  <testcase name="getDueDate()" classname="ProjTodolist.TaskTest" time="0.001"/>
+  <testcase name="getTaskTitle()" classname="ProjTodolist.TaskTest" time="0.008"/>
+  <testcase name="setStatus()" classname="ProjTodolist.TaskTest" time="0.001"/>
+  <testcase name="setDueDate()" classname="ProjTodolist.TaskTest" time="0.001"/>
+  <testcase name="getProject()" classname="ProjTodolist.TaskTest" time="0.001"/>
+  <testcase name="getStatus()" classname="ProjTodolist.TaskTest" time="0.001"/>
+  <testcase name="setTaskTitle()" classname="ProjTodolist.TaskTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

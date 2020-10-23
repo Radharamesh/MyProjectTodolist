@@ -6,19 +6,18 @@ import java.io.Serializable;
 import java.util.stream.Collectors;
 
 /**
- *  This class is the main class of the "Todolist project".
- *  "Todolist" is a very simple, text based application
- *  It gets options from user using scanner to add, edit, remove and save tasks
- *  This main class creates and initialises all the others.
- *  */
+ * This class is the main class of the "Todolist project".
+ * "Todolist" is a very simple, text based application
+ * It gets options from user using scanner to add, edit, remove and save tasks
+ * This main class creates and initialises all the others.
+ */
 public class MainMenu {
     private static ArrayList<Task> taskList = new ArrayList<>();
-    private static List<Task> readTaskList;
     private static boolean quit = false;
     private static boolean addTasks = true;
 
     /**
-     *  Main method runs when application initiates run and loops until user choose to save and quit.
+     * Main method runs when application initiates run and loops until user choose to save and quit.
      */
     public static void main(String[] args) throws Exception {
         int option;
@@ -30,7 +29,6 @@ public class MainMenu {
         //Check for file existance and reads from text file and store it in an arraylist.
         FileHandler readFileHandler = new FileHandler();
         if (readFileHandler.fileExists() == true) {
-            readTaskList = readFileHandler.readAsObject();
             taskList = readFileHandler.readAsObject();
         }
 
@@ -51,100 +49,141 @@ public class MainMenu {
      * parameter option to be processed.
      * Based on the option the process for adding,editing,removing and saving tasks will be carried out.
      */
-    public static void processOption(int option, Parser parser) throws Exception {
-        String taskTitle;
-        String dueDate;
-        boolean status;
-        String project;
-
+    private static void processOption(int option, Parser parser) throws Exception {
         switch (option) {
             case 1:
-                //calling methods for showing tasks by date and project
-                showTaskListByProj();
-                showTaskListByDate();
-
+                //Showing tasks by date and project
+                showTask(parser);
                 break;
             case 2:
-                //adding tasks and store it in an arraylist of task objects.
-                while (addTasks == true) {
-
-                    taskTitle = parser.getTaskTitle();
-                    dueDate = parser.getTaskDuedate();
-                    status = parser.getTaskStatus();
-                    project = parser.getTaskProject();
-
-                    Task ts = new Task(taskTitle, dueDate, status, project);
-                    taskList.add(ts);
-                    System.out.println("Task added");
-                    addTasks = parser.addAnotherTask();
-                }
+                //Adding tasks and store it in an arraylist of task objects.
+                addTask(parser);
                 break;
             case 3:
                 //Editing tasks for updating task title and status or removing tasks
-                int editOption;
-                String taskTitleToEdit;
-                String taskTitleToUpdate;
-                String taskTitleToRemove;
-                boolean taskStatusToUpdate = false;
-                int taskFieldToEdit;
-                editOption = parser.updateOrRemoveTask();
-
-                switch (editOption) {
-                    case 1:
-                        //Update
-                        taskTitleToEdit = parser.getTaskTitleToEdit();
-                        //print task detail for this task title
-                        taskFieldToEdit = parser.taskFieldToEdit();
-                        if (taskFieldToEdit == 1) {
-                            taskTitleToUpdate = parser.getTaskTitleToUpdate();
-                            for (Task task : taskList) {
-                                if (task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
-                                    task.setTaskTitle(taskTitleToUpdate);
-                                    break;
-                                }
-                            }
-                        } else {
-                            taskStatusToUpdate = parser.getTaskStatusToUpdate();
-                            for (Task task : taskList) {
-                                if (task != null && taskTitleToEdit.equals(task.getTaskTitle())) {
-                                    task.setStatus(taskStatusToUpdate);
-                                    break;
-                                }
-                            }
-                        }
-                        System.out.printf("Task %s updated", taskTitleToEdit);
-                        break;
-                    case 2:
-                        //Remove
-                        taskTitleToRemove = parser.getTaskTitleToRemove();
-                        for (Task task : taskList) {
-                            if (task != null && taskTitleToRemove.equals(task.getTaskTitle())) {
-                                taskList.remove(task);
-                                break;
-                            }
-                        }
-                        System.out.printf("Task %s removed", taskTitleToRemove);
-                        break;
-                    default:
-                        System.out.println("Invalid option");
-                }
+                editAndRemoveTask(parser);
                 break;
             case 4:
-                //Calling methods in filehandler class to save tasks in text file and quits from application.
-                if (taskList.size() != 0) {
-                    FileHandler writeFileHandler = new FileHandler();
-                    //object stream
-                    writeFileHandler.writeAsObject(taskList);
-                }
-
-                //saveAndQuit();
-                quit = true;
+                //Save tasks in text file and quits from application.
+                saveAndQuit(parser);
                 break;
             default:
                 System.out.println("Invalid option");
 
         }
 
+    }
+
+    /**
+     * Calling methods in filehandler class to save tasks in text file and quits from application.
+     */
+    private static void saveAndQuit(Parser parser) {
+        if (taskList.size() != 0) {
+            FileHandler writeFileHandler = new FileHandler();
+            writeFileHandler.writeAsObject(taskList);
+            System.out.println("Task list saved in file");
+        }
+        quit = true;
+    }
+
+    /**
+     * Adding tasks and store it in an arraylist of task objects.
+     */
+    private static void addTask(Parser parser) {
+        String taskTitle;
+        String dueDate;
+        boolean status;
+        String project;
+
+        while (addTasks == true) {
+
+            taskTitle = parser.getTaskTitle();
+            dueDate = parser.getTaskDuedate();
+            //status = parser.getTaskStatus();
+            status = false;
+            project = parser.getProjectName();
+
+            Task ts = new Task(taskTitle, dueDate, status, project);
+            taskList.add(ts);
+            System.out.println("Task added");
+            System.out.println();
+            addTasks = parser.addAnotherTask();
+        }
+    }
+
+    /**
+     * Editing tasks for updating task title and status or removing tasks
+     */
+    private static void editAndRemoveTask(Parser parser) {
+        int editOption;
+        String taskToEdit;
+        String taskTitleToUpdate;
+        String taskToRemove;
+        boolean taskStatusToUpdate = false;
+        int taskFieldToEdit;
+        editOption = parser.updateOrRemoveTask();
+
+        switch (editOption) {
+            case 1:
+                //Update
+                showTaskListByProj();
+                taskToEdit = parser.getTaskToEdit();
+
+                taskFieldToEdit = parser.taskFieldToEdit();
+                if (taskFieldToEdit == 1) {
+                    taskTitleToUpdate = parser.getTaskTitleToUpdate();
+                    for (Task task : taskList) {
+                        if (task != null && taskToEdit.equals(task.getTaskTitle())) {
+                            task.setTaskTitle(taskTitleToUpdate);
+                            break;
+                        }
+                    }
+                } else {
+                    taskStatusToUpdate = parser.getTaskStatusToUpdate();
+                    for (Task task : taskList) {
+                        if (task != null && taskToEdit.equals(task.getTaskTitle())) {
+                            task.setStatus(taskStatusToUpdate);
+                            break;
+                        }
+                    }
+                }
+                System.out.printf("Task %s updated", taskToEdit);
+                System.out.println();
+                break;
+            case 2:
+                //Remove
+                showTaskListByProj();
+                taskToRemove = parser.getTaskToRemove();
+                for (Task task : taskList) {
+                    if (task != null && taskToRemove.equals(task.getTaskTitle())) {
+                        taskList.remove(task);
+                        break;
+                    }
+                }
+                System.out.printf("Task %s removed", taskToRemove);
+                System.out.println();
+                break;
+            default:
+                System.out.println("Invalid option");
+        }
+    }
+
+    /**
+     * Displaying tasks by date and project based on user option.
+     */
+    private static void showTask(Parser parser) {
+        int showOption;
+        showOption = parser.optionShowTask();
+        switch (showOption) {
+            case 1:
+                showTaskListByProj();
+                break;
+            case 2:
+                showTaskListByDate();
+                break;
+            default:
+                System.out.println("Invalid option");
+        }
     }
 
     /**

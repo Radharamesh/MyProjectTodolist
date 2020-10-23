@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * This class is part of the Todolist project
  * This class holds information about tasks.
- * */
+ */
 
 public class Task implements Serializable {
     private String taskTitle;
@@ -61,12 +61,14 @@ public class Task implements Serializable {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
+
     /**
      * @return task status of the current object
      */
     public boolean getStatus() {
         return this.status;
     }
+
     /**
      * takes parameter task status and sets it to current object
      */
@@ -87,6 +89,7 @@ public class Task implements Serializable {
     public void setProject(String project) {
         this.project = project;
     }
+
     /**
      * Converts objects to string for serialisation
      */

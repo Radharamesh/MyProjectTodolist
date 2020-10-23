@@ -33,6 +33,7 @@ public class Parser {
         option = inputReader.nextInt();
         return option;
     }
+
     /**
      * Prints welcome message and prints number of tasks to be done and number of tasks done.
      * And prints options for tasks manipulation.
@@ -69,9 +70,19 @@ public class Parser {
      */
     public int updateOrRemoveTask() {
         int editOption;
-        System.out.println("Do you want to update or remove task (Update : 1, Remove : 2)");
+        System.out.println("Do you want to update or remove task? (Update : 1, Remove : 2)");
         editOption = inputReader.nextInt();
         return editOption;
+    }
+
+    /**
+     * @return The next option from user to show tasks by date or project.
+     */
+    public int optionShowTask() {
+        int showOption;
+        System.out.println("Display by project or date? (Project : 1, Duedate : 2)");
+        showOption = inputReader.nextInt();
+        return showOption;
     }
 
     /**
@@ -79,7 +90,7 @@ public class Parser {
      */
     public int taskFieldToEdit() {
         int editFieldOption;
-        System.out.println("Which field do you want to update (Task Title : 1, Status : 2)");
+        System.out.println("Which field you want to update? (Task Title : 1, Status : 2)");
         editFieldOption = inputReader.nextInt();
         return editFieldOption;
 
@@ -91,7 +102,7 @@ public class Parser {
      */
     public String getTaskTitleToUpdate() {
         String taskTitle;
-        System.out.println(">> Enter Task Title to update : ");
+        System.out.println(">> Enter new Task Title to update : ");
         taskTitle = inputReader.next();
         return taskTitle;
     }
@@ -114,7 +125,7 @@ public class Parser {
     /**
      * @return The task title from user in which user wants to update and remove tasks.
      */
-    public String getTaskTitleToEdit() {
+    public String getTaskToEdit() {
         String taskTitle;
         System.out.println(">> Enter which task you want to update : ");
         taskTitle = inputReader.next();
@@ -124,7 +135,7 @@ public class Parser {
     /**
      * @return The task title from user which user wants to remove from task list.
      */
-    public String getTaskTitleToRemove() {
+    public String getTaskToRemove() {
         String taskTitle;
         System.out.println(">> Enter which task you want to remove : ");
         taskTitle = inputReader.next();
@@ -140,6 +151,7 @@ public class Parser {
         taskTitle = inputReader.next();
         return taskTitle;
     }
+
     /**
      * @return The input task duedate from user while adding new task.
      */
@@ -167,7 +179,7 @@ public class Parser {
     /**
      * @return The input Projectname from user while adding new task.
      */
-    public String getTaskProject() {
+    public String getProjectName() {
         String project;
         System.out.println("Enter Project name of Task");
         project = inputReader.next();
