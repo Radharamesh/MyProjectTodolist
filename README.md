@@ -8,7 +8,6 @@ choose a project for that task to belong to. Once they are using the application
 ## How to run the application : 
 * Clone the repository and open it in your Intellij IDE.
 * Install dependencies for JUnit5(JUnit Jupiter engine, JUnit Jupiter API from maven repository).
-* Give path name in FileHandler class, to create text file in your local system to save tasks.
 * Start the application by running MainMenu class.
 
 ## User Manual :
