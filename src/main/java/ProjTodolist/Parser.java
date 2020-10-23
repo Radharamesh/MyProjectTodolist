@@ -33,6 +33,7 @@ public class Parser {
         option = inputReader.nextInt();
         return option;
     }
+
     /**
      * Prints welcome message and prints number of tasks to be done and number of tasks done.
      * And prints options for tasks manipulation.
@@ -73,6 +74,7 @@ public class Parser {
         editOption = inputReader.nextInt();
         return editOption;
     }
+
     /**
      * @return The next option from user to show tasks by date or project.
      */
@@ -82,6 +84,7 @@ public class Parser {
         showOption = inputReader.nextInt();
         return showOption;
     }
+
     /**
      * @return The next option from user to choose fields to update.
      */
@@ -99,7 +102,7 @@ public class Parser {
      */
     public String getTaskTitleToUpdate() {
         String taskTitle;
-        System.out.println(">> Enter Task Title to update : ");
+        System.out.println(">> Enter new Task Title to update : ");
         taskTitle = inputReader.next();
         return taskTitle;
     }
@@ -148,6 +151,7 @@ public class Parser {
         taskTitle = inputReader.next();
         return taskTitle;
     }
+
     /**
      * @return The input task duedate from user while adding new task.
      */
@@ -181,8 +185,6 @@ public class Parser {
         project = inputReader.next();
         return project;
     }
-
-
 
 
 }

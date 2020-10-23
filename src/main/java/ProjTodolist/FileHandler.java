@@ -15,7 +15,7 @@ import java.util.List;
  * This class handles file operations write and read.
  * When user save tasks, this class saves tasks from list to a text file.
  * while opening application it reads tasks from file and returns list of tasks in Arraylist.
- * */
+ */
 public class FileHandler {
     private String fileName = "/Users/radhas/Desktop/Project/task.txt";
 
@@ -41,6 +41,7 @@ public class FileHandler {
 
     /**
      * Reads objects from text file and store it in an arraylist
+     *
      * @return Arraylist of tasks from text file.
      */
     public ArrayList<Task> readAsObject() {

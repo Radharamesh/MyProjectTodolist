@@ -6,18 +6,18 @@ import java.io.Serializable;
 import java.util.stream.Collectors;
 
 /**
- *  This class is the main class of the "Todolist project".
- *  "Todolist" is a very simple, text based application
- *  It gets options from user using scanner to add, edit, remove and save tasks
- *  This main class creates and initialises all the others.
- *  */
+ * This class is the main class of the "Todolist project".
+ * "Todolist" is a very simple, text based application
+ * It gets options from user using scanner to add, edit, remove and save tasks
+ * This main class creates and initialises all the others.
+ */
 public class MainMenu {
     private static ArrayList<Task> taskList = new ArrayList<>();
     private static boolean quit = false;
     private static boolean addTasks = true;
 
     /**
-     *  Main method runs when application initiates run and loops until user choose to save and quit.
+     * Main method runs when application initiates run and loops until user choose to save and quit.
      */
     public static void main(String[] args) throws Exception {
         int option;
@@ -81,6 +81,7 @@ public class MainMenu {
         if (taskList.size() != 0) {
             FileHandler writeFileHandler = new FileHandler();
             writeFileHandler.writeAsObject(taskList);
+            System.out.println("Task list saved in file");
         }
         quit = true;
     }
@@ -105,6 +106,7 @@ public class MainMenu {
             Task ts = new Task(taskTitle, dueDate, status, project);
             taskList.add(ts);
             System.out.println("Task added");
+            System.out.println();
             addTasks = parser.addAnotherTask();
         }
     }
@@ -146,6 +148,7 @@ public class MainMenu {
                     }
                 }
                 System.out.printf("Task %s updated", taskToEdit);
+                System.out.println();
                 break;
             case 2:
                 //Remove
@@ -158,6 +161,7 @@ public class MainMenu {
                     }
                 }
                 System.out.printf("Task %s removed", taskToRemove);
+                System.out.println();
                 break;
             default:
                 System.out.println("Invalid option");
@@ -168,18 +172,18 @@ public class MainMenu {
      * Displaying tasks by date and project based on user option.
      */
     private static void showTask(Parser parser) {
-            int showOption;
-            showOption = parser.optionShowTask();
-            switch (showOption) {
-                case 1 :
-                    showTaskListByProj();
-                    break;
-                case 2 :
-                    showTaskListByDate();
-                    break;
-                default:
-                    System.out.println("Invalid option");
-            }
+        int showOption;
+        showOption = parser.optionShowTask();
+        switch (showOption) {
+            case 1:
+                showTaskListByProj();
+                break;
+            case 2:
+                showTaskListByDate();
+                break;
+            default:
+                System.out.println("Invalid option");
+        }
     }
 
     /**
