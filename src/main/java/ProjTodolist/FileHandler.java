@@ -17,7 +17,7 @@ import java.util.List;
  * while opening application it reads tasks from file and returns list of tasks in Arraylist.
  */
 public class FileHandler {
-    private String fileName = "/Users/radhas/Desktop/Project/task.txt";
+    private String fileName = "task.txt";
 
     /**
      * Creates a new file in the given path and writes the tasks as objects from Arraylist of Task objects.
@@ -68,7 +68,7 @@ public class FileHandler {
     public boolean fileExists() {
         boolean exist = false;
         try {
-            File file = new File("/Users/radhas/Desktop/Project/task.txt");
+            File file = new File("task.txt");
             exist = file.exists();
 
         } catch (NullPointerException e) {
